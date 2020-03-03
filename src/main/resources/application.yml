@@ -1,0 +1,26 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: OrderBaseServer
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    url: jdbc:mysql://47.94.157.37:3306/movie?serverTimeZone=UTC&characterEncoding=UTF-8
+    password: zy5201314.
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9999/eureka/
+mybatis:
+  mapper-locations: classpath:sql/*Mapper.xml
+  type-aliases-package: com.movie.order.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com:
+      example:
+        mapper: debug

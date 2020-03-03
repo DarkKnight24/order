@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.order.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    <!--@Table order-->
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="schedule_id" jdbcType="BIGINT" property="scheduleId" />
+    <result column="order_position" jdbcType="VARCHAR" property="orderPosition" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState" />
+    <result column="order_price" jdbcType="INTEGER" property="orderPrice" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    order_id, user_id, schedule_id, order_position, order_state, order_price, order_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    insert into order (order_id, user_id, schedule_id, 
+      order_position, order_state, order_price, 
+      order_time)
+    values (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{scheduleId,jdbcType=BIGINT}, 
+      #{orderPosition,jdbcType=VARCHAR}, #{orderState,jdbcType=INTEGER}, #{orderPrice,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null and orderId != ''">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="scheduleId != null">
+        schedule_id,
+      </if>
+      <if test="orderPosition != null and orderPosition != ''">
+        order_position,
+      </if>
+      <if test="orderState != null">
+        order_state,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null and orderId != ''">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPosition != null and orderPosition != ''">
+        #{orderPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    update order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        schedule_id = #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPosition != null and orderPosition != ''">
+        order_position = #{orderPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    update order
+    set user_id = #{userId,jdbcType=BIGINT},
+      schedule_id = #{scheduleId,jdbcType=BIGINT},
+      order_position = #{orderPosition,jdbcType=VARCHAR},
+      order_state = #{orderState,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update order
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.userId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="schedule_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.scheduleId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="order_position = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderPosition,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="order_state = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderState,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="order_price = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderPrice,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="order_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where order_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.orderId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update order
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.userId != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.userId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="schedule_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.scheduleId != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.scheduleId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_position = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderPosition != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderPosition,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_state = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderState != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderState,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_price = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderPrice != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderPrice,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="order_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.orderTime != null">
+            when order_id = #{item.orderId,jdbcType=VARCHAR} then #{item.orderTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where order_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.orderId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into order
+    (order_id, user_id, schedule_id, order_position, order_state, order_price, order_time
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.orderId,jdbcType=VARCHAR}, #{item.userId,jdbcType=BIGINT}, #{item.scheduleId,jdbcType=BIGINT}, 
+        #{item.orderPosition,jdbcType=VARCHAR}, #{item.orderState,jdbcType=INTEGER}, #{item.orderPrice,jdbcType=INTEGER}, 
+        #{item.orderTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    insert into order
+    (order_id, user_id, schedule_id, order_position, order_state, order_price, order_time
+      )
+    values
+    (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{scheduleId,jdbcType=BIGINT}, 
+      #{orderPosition,jdbcType=VARCHAR}, #{orderState,jdbcType=INTEGER}, #{orderPrice,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP})
+    on duplicate key update 
+    order_id = #{orderId,jdbcType=VARCHAR}, 
+    user_id = #{userId,jdbcType=BIGINT}, 
+    schedule_id = #{scheduleId,jdbcType=BIGINT}, 
+    order_position = #{orderPosition,jdbcType=VARCHAR}, 
+    order_state = #{orderState,jdbcType=INTEGER}, 
+    order_price = #{orderPrice,jdbcType=INTEGER}, 
+    order_time = #{orderTime,jdbcType=TIMESTAMP}
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.movie.order.entity.Order">
+    <!--@mbg.generated-->
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="scheduleId != null">
+        schedule_id,
+      </if>
+      <if test="orderPosition != null">
+        order_position,
+      </if>
+      <if test="orderState != null">
+        order_state,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPosition != null">
+        #{orderPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        schedule_id = #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="orderPosition != null">
+        order_position = #{orderPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
