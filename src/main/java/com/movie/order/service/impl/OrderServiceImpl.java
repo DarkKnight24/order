@@ -1,13 +1,17 @@
 package com.movie.order.service.impl;
 
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import java.util.List;
 import com.movie.order.dao.OrderMapper;
 import com.movie.order.entity.Order;
 import com.movie.order.service.OrderService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
+
 @Service
-public class OrderServiceImpl implements OrderService{
+@Transactional(rollbackFor = Exception.class)
+public class OrderServiceImpl implements OrderService {
 
     @Resource
     private OrderMapper orderMapper;
