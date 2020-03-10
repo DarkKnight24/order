@@ -5,6 +5,6 @@ spring:
     name: OrderBaseServer
   cloud:
     config:
-      uri: http://localhost:9999
+      uri: http://localhost:9999/config
 mybatis:
   type-aliases-package: com.movie.order.entity
