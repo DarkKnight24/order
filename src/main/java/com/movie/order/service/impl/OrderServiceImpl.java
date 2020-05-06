@@ -71,7 +71,12 @@ public class OrderServiceImpl implements OrderService {
     public int updateByPrimaryKeySelective(Order record) {
         Order order = selectByPrimaryKey(record.getOrderId());
         checkPayState(order);
-        if (order.getOrderState() != OrderStateEnum.UNPAY.getKey()) {
+        if (record.getOrderState() == OrderStateEnum.PAYMENT_COMPLETE.getKey()
+            && order.getOrderState() != OrderStateEnum.UNPAY.getKey()) {
+            return 0;
+        }
+        if (record.getOrderState() == OrderStateEnum.REFUNDING.getKey()
+            && order.getOrderState() != OrderStateEnum.PAYMENT_COMPLETE.getKey()) {
             return 0;
         }
         return orderMapper.updateByPrimaryKeySelective(record);

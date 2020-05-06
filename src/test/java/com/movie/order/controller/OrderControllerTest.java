@@ -28,6 +28,11 @@ public class OrderControllerTest {
     
     @Test
     public void updateOrder() {
+        Order order = new Order();
+        order.setOrderId(10L);
+        order.setOrderState(0);
+        Object o = orderController.updateOrder(order);
+        System.out.println(JsonUtil.toJson(o));
     }
     
     @Test
