@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.movie.base.utils.JsonUtil;
+import com.movie.base.utils.Page;
 import com.movie.order.entity.Order;
+import com.movie.order.param.OrderSelectParam;
 
 @SpringBootTest
 public class OrderControllerTest {
@@ -34,5 +36,14 @@ public class OrderControllerTest {
     
     @Test
     public void getAllByParam() {
+    }
+    
+    @Test
+    public void selectByParam() {
+        OrderSelectParam param = new OrderSelectParam();
+        param.setUserId(6L);
+        Object allByParam = orderController.getAllByParam(param, new Page());
+        String s = JsonUtil.toJson(allByParam);
+        System.out.println(s);
     }
 }

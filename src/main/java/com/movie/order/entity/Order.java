@@ -31,6 +31,8 @@ public class Order {
      */
     private Integer orderState;
     
+    private String orderStatus;
+    
     /**
      * 订单价格
      */

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.movie.order.entity.Order;
+import com.movie.order.param.OrderSelectParam;
 
 @Mapper
 public interface OrderMapper {
@@ -19,7 +20,7 @@ public interface OrderMapper {
     
     Long insertSelective(Order record);
     
-    Order selectByPrimaryKey(String orderId);
+    Order selectByPrimaryKey(Long orderId);
     
     int updateByPrimaryKeySelective(Order record);
     
@@ -30,4 +31,6 @@ public interface OrderMapper {
     int updateBatchSelective(List<Order> list);
     
     int batchInsert(@Param("list") List<Order> list);
+    
+    List<Order> selectByParam(OrderSelectParam param);
 }

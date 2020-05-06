@@ -16,13 +16,13 @@
         <!--@mbg.generated-->
         order_id, user_id, schedule_id, order_position, order_state, order_price, order_time
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
 
         select
         <include refid="Base_Column_List"/>
         from order_info
-        where order_id = #{orderId,jdbcType=VARCHAR}
+        where order_id = #{orderId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--@mbg.generated-->
@@ -317,4 +317,14 @@
             </if>
         </trim>
     </insert>
+    <select id="selectByParam" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM order_info
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -7,8 +7,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.movie.base.utils.BeanUtil;
+import com.movie.base.utils.EnumUtil;
+import com.movie.base.utils.Page;
 import com.movie.order.dao.OrderMapper;
 import com.movie.order.entity.Order;
+import com.movie.order.enums.OrderStateEnum;
+import com.movie.order.param.OrderSelectParam;
 import com.movie.order.service.OrderService;
 
 @Service
@@ -47,12 +54,16 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public Order selectByPrimaryKey(String orderId) {
+    public Order selectByPrimaryKey(Long orderId) {
         return orderMapper.selectByPrimaryKey(orderId);
     }
     
     @Override
     public int updateByPrimaryKeySelective(Order record) {
+        Order order = selectByPrimaryKey(record.getOrderId());
+        if (order.getOrderState() != OrderStateEnum.UNPAY.getKey()) {
+            return 0;
+        }
         return orderMapper.updateByPrimaryKeySelective(record);
     }
     
@@ -76,4 +87,16 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.batchInsert(list);
     }
     
+    @Override
+    public Page selectByParam(OrderSelectParam param, Page page) {
+        PageHelper.startPage(page);
+        List<Order> orderList = orderMapper.selectByParam(param);
+        orderList.forEach(p -> {
+            p.setOrderStatus(EnumUtil.get(OrderStateEnum.class, p.getOrderState()).getValue());
+        });
+        PageInfo pageInfo = new PageInfo(orderList);
+        BeanUtil.copyProperties(pageInfo, page);
+        page.setList(orderList);
+        return page;
+    }
 }

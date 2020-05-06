@@ -2,7 +2,9 @@ package com.movie.order.service;
 
 import java.util.List;
 
+import com.movie.base.utils.Page;
 import com.movie.order.entity.Order;
+import com.movie.order.param.OrderSelectParam;
 
 public interface OrderService {
     
@@ -16,7 +18,7 @@ public interface OrderService {
     
     Order insertSelective(Order record);
     
-    Order selectByPrimaryKey(String orderId);
+    Order selectByPrimaryKey(Long orderId);
     
     int updateByPrimaryKeySelective(Order record);
     
@@ -28,4 +30,5 @@ public interface OrderService {
     
     int batchInsert(List<Order> list);
     
+    Page selectByParam(OrderSelectParam param, Page page);
 }
