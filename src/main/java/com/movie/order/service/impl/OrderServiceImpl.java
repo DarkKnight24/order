@@ -4,15 +4,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.movie.base.dto.ScheduleDto;
+import com.movie.base.interfaces.ScheduleClient;
 import com.movie.base.utils.BeanUtil;
 import com.movie.base.utils.EnumUtil;
 import com.movie.base.utils.Page;
 import com.movie.order.dao.OrderMapper;
+import com.movie.order.dto.OrderDto;
 import com.movie.order.entity.Order;
 import com.movie.order.enums.OrderStateEnum;
 import com.movie.order.param.OrderSelectParam;
@@ -24,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
     
     @Resource
     private OrderMapper orderMapper;
+    
+    @Autowired
+    private ScheduleClient scheduleClient;
     
     @Override
     public int deleteByPrimaryKey(String orderId) {
@@ -91,10 +98,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page selectByParam(OrderSelectParam param, Page page) {
         PageHelper.startPage(page);
-        List<Order> orderList = orderMapper.selectByParam(param);
+        List<OrderDto> orderList = orderMapper.selectByParam(param);
         orderList.forEach(p -> {
             checkPayState(p);
             p.setOrderStatus(EnumUtil.get(OrderStateEnum.class, p.getOrderState()).getValue());
+            Object detail = scheduleClient.detail(p.getScheduleId());
+            ScheduleDto scheduleDto = new ScheduleDto();
+            BeanUtil.copyProperties(detail, scheduleDto);
+            p.setScheduleDto(scheduleDto);
         });
         PageInfo pageInfo = new PageInfo(orderList);
         BeanUtil.copyProperties(pageInfo, page);

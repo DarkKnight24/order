@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.movie.order.dto.OrderDto;
 import com.movie.order.entity.Order;
 import com.movie.order.param.OrderSelectParam;
 
@@ -32,5 +33,5 @@ public interface OrderMapper {
     
     int batchInsert(@Param("list") List<Order> list);
     
-    List<Order> selectByParam(OrderSelectParam param);
+    List<OrderDto> selectByParam(OrderSelectParam param);
 }
