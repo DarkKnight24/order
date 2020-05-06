@@ -1,6 +1,7 @@
 package com.movie.order.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,7 @@ import com.movie.base.dto.ScheduleDto;
 import com.movie.base.interfaces.ScheduleClient;
 import com.movie.base.utils.BeanUtil;
 import com.movie.base.utils.EnumUtil;
+import com.movie.base.utils.JsonUtil;
 import com.movie.base.utils.Page;
 import com.movie.order.dao.OrderMapper;
 import com.movie.order.dto.OrderDto;
@@ -103,8 +105,9 @@ public class OrderServiceImpl implements OrderService {
             checkPayState(p);
             p.setOrderStatus(EnumUtil.get(OrderStateEnum.class, p.getOrderState()).getValue());
             Object detail = scheduleClient.detail(p.getScheduleId());
-            ScheduleDto scheduleDto = new ScheduleDto();
-            BeanUtil.copyProperties(detail, scheduleDto);
+            Map<String, Object> map = JsonUtil.fromJsonAsMap(Object.class, JsonUtil.toJson(detail));
+            Object data = map.get("data");
+            ScheduleDto scheduleDto = JsonUtil.fromJson(JsonUtil.toJson(data), ScheduleDto.class);
             p.setScheduleDto(scheduleDto);
         });
         PageInfo pageInfo = new PageInfo(orderList);
