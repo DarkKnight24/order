@@ -17,7 +17,7 @@ public interface OrderMapper {
     
     int insertOrUpdateSelective(Order record);
     
-    long insertSelective(Order record);
+    Long insertSelective(Order record);
     
     Order selectByPrimaryKey(String orderId);
     

@@ -40,9 +40,10 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     public Order insertSelective(Order record) {
-        long orderId = orderMapper.insertSelective(record);
-        record.setOrderId(orderId);
-        return record;
+        if (orderMapper.insertSelective(record) > 0) {
+            return record;
+        }
+        return null;
     }
     
     @Override

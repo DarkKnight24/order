@@ -18,6 +18,7 @@
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         <!--@mbg.generated-->
+
         select
         <include refid="Base_Column_List"/>
         from order_info
@@ -38,13 +39,10 @@
         #{orderTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.movie.order.entity.Order" useGeneratedKeys="true"
-            keyProperty="orderId" keyColumn="order_id">
+            keyColumn="order_id" keyProperty="orderId">
         <!--@mbg.generated-->
         insert into order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="orderId != null and orderId != ''">
-                order_id,
-            </if>
             <if test="userId != null">
                 user_id,
             </if>
@@ -65,9 +63,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="orderId != null and orderId != ''">
-                #{orderId,jdbcType=VARCHAR},
-            </if>
             <if test="userId != null">
                 #{userId,jdbcType=BIGINT},
             </if>
