@@ -61,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int updateByPrimaryKeySelective(Order record) {
         Order order = selectByPrimaryKey(record.getOrderId());
+        checkPayState(order);
         if (order.getOrderState() != OrderStateEnum.UNPAY.getKey()) {
             return 0;
         }
@@ -92,11 +93,21 @@ public class OrderServiceImpl implements OrderService {
         PageHelper.startPage(page);
         List<Order> orderList = orderMapper.selectByParam(param);
         orderList.forEach(p -> {
+            checkPayState(p);
             p.setOrderStatus(EnumUtil.get(OrderStateEnum.class, p.getOrderState()).getValue());
         });
         PageInfo pageInfo = new PageInfo(orderList);
         BeanUtil.copyProperties(pageInfo, page);
         page.setList(orderList);
         return page;
+    }
+    
+    private void checkPayState(Order order) {
+        if (order.getOrderState() == OrderStateEnum.UNPAY.getKey()) {
+            if ((order.getCreateTime().getTime() + 1000 * 60 * 30) <= System.currentTimeMillis()) {
+                order.setOrderState(OrderStateEnum.ORDER_FAIL.getKey());
+                updateByPrimaryKeySelective(order);
+            }
+        }
     }
 }

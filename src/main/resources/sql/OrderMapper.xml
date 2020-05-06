@@ -11,10 +11,11 @@
         <result column="order_state" jdbcType="INTEGER" property="orderState"/>
         <result column="order_price" jdbcType="INTEGER" property="orderPrice"/>
         <result column="order_time" jdbcType="TIMESTAMP" property="orderTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        order_id, user_id, schedule_id, order_position, order_state, order_price, order_time
+        order_id, user_id, schedule_id, order_position, order_state, order_price, order_time, create_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->

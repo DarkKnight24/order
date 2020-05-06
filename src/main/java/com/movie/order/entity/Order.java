@@ -42,4 +42,6 @@ public class Order {
      * 订单支付时间
      */
     private Date orderTime;
+    
+    private Date createTime;
 }
