@@ -3,6 +3,7 @@ package com.movie.order.service;
 import java.util.List;
 
 import com.movie.base.utils.Page;
+import com.movie.order.dto.OrderDto;
 import com.movie.order.entity.Order;
 import com.movie.order.param.OrderSelectParam;
 
@@ -18,7 +19,7 @@ public interface OrderService {
     
     Order insertSelective(Order record);
     
-    Order selectByPrimaryKey(Long orderId);
+    OrderDto selectByPrimaryKey(Long orderId);
     
     int updateByPrimaryKeySelective(Order record);
     

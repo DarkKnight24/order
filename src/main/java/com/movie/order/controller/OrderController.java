@@ -52,4 +52,10 @@ public class OrderController {
     public Object getAllByParam(OrderSelectParam param, Page page) {
         return orderService.selectByParam(param, page);
     }
+    
+    @ResponseBody
+    @GetMapping("detail/{orderId}")
+    public Object getDetail(@PathVariable Long orderId) {
+        return orderService.selectByPrimaryKey(orderId);
+    }
 }

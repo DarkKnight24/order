@@ -9,5 +9,9 @@ import lombok.Data;
 public class OrderDto extends Order {
     private String orderStatus;
     
+    private Integer minute;
+    
+    private Integer second;
+    
     private ScheduleDto scheduleDto;
 }

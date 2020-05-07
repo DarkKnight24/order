@@ -1,5 +1,6 @@
 package com.movie.order.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +64,19 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public Order selectByPrimaryKey(Long orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
+    public OrderDto selectByPrimaryKey(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        OrderDto orderDto = new OrderDto();
+        BeanUtil.copyProperties(order, orderDto);
+        orderDto.setScheduleDto(getScheduleDto(orderDto.getScheduleId()));
+        Date createTime = orderDto.getCreateTime();
+        long time = 1000 * 60 * 30 - System.currentTimeMillis() - createTime.getTime();
+        if (time <= 0) {
+            return orderDto;
+        }
+        orderDto.setMinute((int)(time / (1000 * 60)));
+        orderDto.setSecond((int)(time - (time / (1000 * 60)) * 60 * 1000) / 1000);
+        return orderDto;
     }
     
     @Override
@@ -109,16 +121,20 @@ public class OrderServiceImpl implements OrderService {
         orderList.forEach(p -> {
             checkPayState(p);
             p.setOrderStatus(EnumUtil.get(OrderStateEnum.class, p.getOrderState()).getValue());
-            Object detail = scheduleClient.detail(p.getScheduleId());
-            Map<String, Object> map = JsonUtil.fromJsonAsMap(Object.class, JsonUtil.toJson(detail));
-            Object data = map.get("data");
-            ScheduleDto scheduleDto = JsonUtil.fromJson(JsonUtil.toJson(data), ScheduleDto.class);
-            p.setScheduleDto(scheduleDto);
+            p.setScheduleDto(getScheduleDto(p.getScheduleId()));
         });
         PageInfo pageInfo = new PageInfo(orderList);
         BeanUtil.copyProperties(pageInfo, page);
         page.setList(orderList);
         return page;
+    }
+    
+    private ScheduleDto getScheduleDto(Long scheduleId) {
+        Object detail = scheduleClient.detail(scheduleId);
+        Map<String, Object> map = JsonUtil.fromJsonAsMap(Object.class, JsonUtil.toJson(detail));
+        Object data = map.get("data");
+        ScheduleDto scheduleDto = JsonUtil.fromJson(JsonUtil.toJson(data), ScheduleDto.class);
+        return scheduleDto;
     }
     
     private void checkPayState(Order order) {
@@ -128,5 +144,11 @@ public class OrderServiceImpl implements OrderService {
                 updateByPrimaryKeySelective(order);
             }
         }
+    }
+    
+    public static void main(String[] args) {
+        long time = 1000 * 60 * 29 + 55 * 1000;
+        System.out.println(time / (1000 * 60));
+        System.out.println((time - (time / (1000 * 60)) * 60 * 1000) / 1000);
     }
 }
