@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         BeanUtil.copyProperties(order, orderDto);
         orderDto.setScheduleDto(getScheduleDto(orderDto.getScheduleId()));
         Date createTime = orderDto.getCreateTime();
-        long time = 1000 * 60 * 30 - System.currentTimeMillis() - createTime.getTime();
+        long time = 1000 * 60 * 30 - System.currentTimeMillis() + createTime.getTime();
         if (time <= 0) {
             return orderDto;
         }

@@ -51,4 +51,10 @@ public class OrderControllerTest {
         String s = JsonUtil.toJson(allByParam);
         System.out.println(s);
     }
+    
+    @Test
+    public void detail() {
+        Object detail = orderController.getDetail(13L);
+        System.out.println(JsonUtil.toJson(detail));
+    }
 }
