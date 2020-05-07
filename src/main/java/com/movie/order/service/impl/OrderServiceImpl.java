@@ -66,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto selectByPrimaryKey(Long orderId) {
         Order order = orderMapper.selectByPrimaryKey(orderId);
+        checkPayState(order);
         OrderDto orderDto = new OrderDto();
         BeanUtil.copyProperties(order, orderDto);
         orderDto.setScheduleDto(getScheduleDto(orderDto.getScheduleId()));
