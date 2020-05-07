@@ -77,6 +77,7 @@ public class OrderServiceImpl implements OrderService {
         }
         orderDto.setMinute((int)(time / (1000 * 60)));
         orderDto.setSecond((int)(time - (time / (1000 * 60)) * 60 * 1000) / 1000);
+        orderDto.setOrderStatus(EnumUtil.get(OrderStateEnum.class, orderDto.getOrderState()).getValue());
         return orderDto;
     }
     
