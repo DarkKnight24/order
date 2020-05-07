@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
         OrderDto orderDto = new OrderDto();
         BeanUtil.copyProperties(order, orderDto);
         orderDto.setScheduleDto(getScheduleDto(orderDto.getScheduleId()));
+        orderDto.setOrderStatus(EnumUtil.get(OrderStateEnum.class, orderDto.getOrderState()).getValue());
         Date createTime = orderDto.getCreateTime();
         long time = 1000 * 60 * 30 - System.currentTimeMillis() + createTime.getTime();
         if (time <= 0) {
@@ -77,7 +78,6 @@ public class OrderServiceImpl implements OrderService {
         }
         orderDto.setMinute((int)(time / (1000 * 60)));
         orderDto.setSecond((int)(time - (time / (1000 * 60)) * 60 * 1000) / 1000);
-        orderDto.setOrderStatus(EnumUtil.get(OrderStateEnum.class, orderDto.getOrderState()).getValue());
         return orderDto;
     }
     
