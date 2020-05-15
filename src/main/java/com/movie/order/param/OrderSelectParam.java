@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class OrderSelectParam {
     private Long userId;
+    
+    private Integer orderState;
 }
